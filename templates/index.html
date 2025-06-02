@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Flood Contingency Plan | Sylhet Region | Daily Water Level Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .chart-container {
+            flex: 1 1 45%;
+            max-width: 48%;
+            margin-right: 2%;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        .chart-container:last-child {
+            margin-right: 0;
+        }
+        .info-box {
+            margin-bottom: 10px;
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 400px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+        }
+        @media (max-width: 900px) {
+            .chart-container {
+                max-width: 100%;
+                flex-basis: 100%;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Flood Contingency Plan | Sylhet Region | Daily Water Level Tracker</h1>
+    <p><em>{{ today }}</em></p>
+
+    {% for i in range(0, station_plots|length, 2) %}
+        <div class="row">
+            {% for plot in station_plots[i:i+2] %}
+                <div class="chart-container">
+                    <div class="info-box">
+                        <strong>{{ plot.station }}</strong>
+                        {% if plot.danger_level %}
+                            <br>Danger Level: {{ plot.danger_level }} m
+                        {% endif %}
+                    </div>
+                    {% if plot.plot_url %}
+                        <img src="data:image/png;base64,{{ plot.plot_url }}" alt="Water Level Plot for {{ plot.station }}" />
+                    {% else %}
+                        <p>No data available for {{ plot.station }}.</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+</body>
+</html>
